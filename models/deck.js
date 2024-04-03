@@ -5,4 +5,4 @@ const deckSchema = mongoose({
   cards: [{ type: mongoose.Schema.Types.ObjectId }],
 });
 
-module.exports = mongoose.Model("deckModel", deckModel);
+module.exports = mongoose.Model("deckModel", deckSchema);
