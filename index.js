@@ -2,9 +2,9 @@ require("./config/database");
 const { createDesk, deleteDesk } = require("./controllers/deckController");
 const inquirer = require("inquirer");
 
-function main() {
+async function main() {
   console.clear();
-  inquirer
+  await inquirer
     .prompt({
       type: "list",
       name: "menuOption",
@@ -19,8 +19,8 @@ function main() {
       console.clear();
       switch (answers.menuOption) {
         case 1:
-          console.log("Você escolher a opção 1");
-          //createDesk();
+          await createDesk();
+          main();
           break;
         case 2:
           console.log("Você escolher a opção 2");
@@ -63,7 +63,7 @@ function main() {
       }
     })
     .catch(() => {
-      console.log("erro no main Menu");
+      console.log("Error at main() function");
     });
 }
 

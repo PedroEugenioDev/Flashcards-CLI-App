@@ -1,33 +1,53 @@
-const Deck = require("../models/deck");
-const readline = require("node:readline");
+const deck = require("../models/deck");
+const inquirer = require("inquirer");
+
+/* const readline = require("node:readline");
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-
+ */
 async function createDesk() {
-  rl.clear();
-  try {
-    rl.question("Insert a new desk name:\n", async (name) => {
-      await Deck.create({ name });
-      rl.clear();
-      rl.write(`${name} desk sucessfully created\n`);
+  console.clear();
+  await inquirer
+    .prompt({
+      type: "input",
+      name: "new-deck-name",
+      message: "Insert a name for your new deck",
+    })
+    .then(async (answer) => {
+      if (answer["new-deck-name"]) {
+        await inquirer
+          .prompt({
+            type: "confirm",
+            name: "new-deck-confirm",
+            message: `Confirm to create ${answer["new-deck-name"]} deck`,
+          })
+          .then((answer) => {
+            if (answer["new-deck-confirm"] === true) {
+              deck.create({ name: answer["new-deck-name"] });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    })
+    .catch((error) => {
+      console.log({ error });
     });
-  } catch (error) {
-    rl.write(`New deck creation failed. Erro: ${error}\n`);
-  }
 }
 
 async function deleteDesk(deskId) {
-  rl.clear();
+  /*   console.clear();
   try {
-    await Deck.findAndDelete(deskId);
+    await deck.findAndDelete(deskId);
     rl.clear();
     rl.write(`Desk sucessfully deleted\n`);
   } catch (error) {
     rl.write(`Failed to delete deck. Erro: ${error}\n`);
-  }
+  } */
 }
 
 module.exports = { createDesk, deleteDesk };
