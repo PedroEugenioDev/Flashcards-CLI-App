@@ -1,76 +1,70 @@
 require("./config/database");
 const { createDesk, deleteDesk } = require("./controllers/deckController");
-const { write, realpath } = require("node:fs");
-
-const readline = require("node:readline").createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false,
-});
-
-const mainMenuPrompt = `Choose an option:
-
-  1 - Create a new desk
-  2 - Delete a desk
-  3 - Exit
-  
-`;
-
-/* function main() {
-  let option = "";
-  process.stdout.write(mainMenuPrompt);
-  process.stdin.on("data", (answer) => {
-    process.stdout.write(`Input: ${answer}`);
-    option = Number(answer);
-    switch (option) {
-      case 1:
-        process.stdout.write("Você escolher a opção 1");
-        //createDesk();
-        break;
-      case 2:
-        process.stdout.write("Você escolher a opção 2");
-        // deleteDesk();
-        break;
-      case 3:
-        process.stdout.write("Você escolher a opção 3");
-        //console.clear();
-        break;
-      default:
-        process.stdout.write("Você escolheu uma opção inválida");
-        break;
-    }
-  });
-} */
+const inquirer = require("inquirer");
 
 function main() {
-  readline.question(mainMenuPrompt, (answer) => {
-    let option = Number(answer);
-    switch (option) {
-      case 1:
-        console.log("Você escolher a opção 1");
-        //createDesk();
-        break;
-      case 2:
-        console.log("Você escolher a opção 2");
-        // deleteDesk();
-        break;
-      case 3:
-        console.clear();
-        console.log("Exiting... (Press Enter)");
-        process.stdin.on("keypress", (key) => {
-          if (key == "\r") {
-            console.clear();
-            process.exit(0);
-          } else {
-            console.log("Press enter key");
-          }
-        });
-        break;
-      default:
-        console.log("Você escolheu uma opção inválida");
-        break;
-    }
-  });
+  console.clear();
+  inquirer
+    .prompt({
+      type: "list",
+      name: "menuOption",
+      message: "Select an option:",
+      choices: [
+        { name: "Create a deck", value: 1 },
+        { name: "Delete a deck", value: 2 },
+        { name: "Exit", value: 3 },
+      ],
+    })
+    .then(async (answers) => {
+      console.clear();
+      switch (answers.menuOption) {
+        case 1:
+          console.log("Você escolher a opção 1");
+          //createDesk();
+          break;
+        case 2:
+          console.log("Você escolher a opção 2");
+          // deleteDesk();
+          break;
+        case 3:
+          console.clear();
+          inquirer
+            .prompt([
+              {
+                type: "confirm",
+                name: "exit-confirm",
+                message: "Confirm to exit",
+              },
+            ])
+            .then((answer) => {
+              if (answer["exit-confirm"] === true) {
+                console.clear();
+                process.exit();
+              } else {
+                main();
+              }
+            })
+            .catch((error) => {
+              console.log(`${error}`);
+            });
+          break;
+        default:
+          console.clear();
+          console.log("Invalid option... (Press Enter)");
+          process.stdin.on("keypress", (key) => {
+            console.log({ key });
+            if (key == "\r") {
+              console.clear();
+              main();
+            } else {
+              console.log("Press enter key");
+            }
+          });
+      }
+    })
+    .catch(() => {
+      console.log("erro no main Menu");
+    });
 }
 
 main();

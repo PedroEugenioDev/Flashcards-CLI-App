@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const deckSchema = mongoose({
-  name: { type: string },
+const deckSchema = mongoose.Schema({
+  name: { type: String },
   cards: [{ type: mongoose.Schema.Types.ObjectId }],
 });
 
-module.exports = mongoose.Model("deckModel", deckSchema);
+module.exports = mongoose.model("deckModel", deckSchema);
