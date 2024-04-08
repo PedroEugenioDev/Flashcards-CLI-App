@@ -8,6 +8,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
  */
+
 async function createDesk() {
   console.clear();
   await inquirer
@@ -35,8 +36,22 @@ async function createDesk() {
       }
     })
     .catch((error) => {
-      console.log({ error });
+      console.log(error);
     });
+}
+
+async function showDecks() {
+  console.clear();
+  let decks = await deck.find();
+  let listName = [];
+  decks.forEach((element) => listName.push(element["name"]));
+
+  await inquirer.prompt({
+    type: "list",
+    name: "deckOption",
+    message: "Select a deck:",
+    choices: listName,
+  });
 }
 
 async function deleteDesk(deskId) {
@@ -50,4 +65,4 @@ async function deleteDesk(deskId) {
   } */
 }
 
-module.exports = { createDesk, deleteDesk };
+module.exports = { createDesk, showDecks, deleteDesk };

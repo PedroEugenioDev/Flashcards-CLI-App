@@ -1,5 +1,9 @@
 require("./config/database");
-const { createDesk, deleteDesk } = require("./controllers/deckController");
+const {
+  createDesk,
+  showDecks,
+  deleteDesk,
+} = require("./controllers/deckController");
 const inquirer = require("inquirer");
 
 async function main() {
@@ -11,7 +15,7 @@ async function main() {
       message: "Select an option:",
       choices: [
         { name: "Create a deck", value: 1 },
-        { name: "Delete a deck", value: 2 },
+        { name: "Show decks", value: 2 },
         { name: "Exit", value: 3 },
       ],
     })
@@ -23,8 +27,7 @@ async function main() {
           main();
           break;
         case 2:
-          console.log("Você escolher a opção 2");
-          // deleteDesk();
+          showDecks();
           break;
         case 3:
           console.clear();
