@@ -16,7 +16,8 @@ async function main() {
       choices: [
         { name: "Create a deck", value: 1 },
         { name: "Show decks", value: 2 },
-        { name: "Exit", value: 3 },
+        { name: "Delete deck", value: 3 },
+        { name: "Exit", value: 4 },
       ],
     })
     .then(async (answers) => {
@@ -27,9 +28,12 @@ async function main() {
           main();
           break;
         case 2:
-          showDecks();
+          await showDecks();
           break;
         case 3:
+          await deleteDesk();
+          break;
+        case 4:
           console.clear();
           inquirer
             .prompt([

@@ -46,23 +46,42 @@ async function showDecks() {
   let listName = [];
   decks.forEach((element) => listName.push(element["name"]));
 
-  await inquirer.prompt({
-    type: "list",
-    name: "deckOption",
-    message: "Select a deck:",
-    choices: listName,
-  });
+  await inquirer
+    .prompt({
+      type: "list",
+      name: "deckOption",
+      message: "Select a deck:",
+      choices: listName,
+    })
+    .then((answer) => {
+      deckMenu(answer["deckOption"]);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
+async function deckMenu() {}
+
 async function deleteDesk(deskId) {
-  /*   console.clear();
-  try {
-    await deck.findAndDelete(deskId);
-    rl.clear();
-    rl.write(`Desk sucessfully deleted\n`);
-  } catch (error) {
-    rl.write(`Failed to delete deck. Erro: ${error}\n`);
-  } */
+  console.clear();
+  let decks = await deck.find();
+  let listName = [];
+  decks.forEach((element) => listName.push(element["name"]));
+
+  await inquirer
+    .prompt({
+      type: "list",
+      name: "deleteDeckOption",
+      message: "Select a deck to delete:",
+      choices: listName,
+    })
+    .then(async (answer) => {
+      await deck.deleteOne({ name: answer["deleteDeckOption"] });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 module.exports = { createDesk, showDecks, deleteDesk };
