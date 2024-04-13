@@ -1,14 +1,6 @@
 const deck = require("../models/deck");
 const inquirer = require("inquirer");
 
-/* const readline = require("node:readline");
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
- */
-
 async function createDesk() {
   console.clear();
   await inquirer
