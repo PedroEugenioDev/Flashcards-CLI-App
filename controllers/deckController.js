@@ -19,20 +19,7 @@ async function createDesk() {
     })
     .then(async (answer) => {
       if (answer["new-deck-name"]) {
-        await inquirer
-          .prompt({
-            type: "confirm",
-            name: "new-deck-confirm",
-            message: `Confirm to create ${answer["new-deck-name"]} deck`,
-          })
-          .then((answer) => {
-            if (answer["new-deck-confirm"] === true) {
-              deck.create({ name: answer["new-deck-name"] });
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        await deck.create({ name: answer["new-deck-name"] });
       }
     })
     .catch((error) => {
