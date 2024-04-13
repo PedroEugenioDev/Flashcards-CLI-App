@@ -29,9 +29,11 @@ async function main() {
           break;
         case 2:
           await showDecks();
+          main();
           break;
         case 3:
           await deleteDesk();
+          main();
           break;
         case 4:
           console.clear();
