@@ -30,9 +30,12 @@ async function showDecks() {
       type: "list",
       name: "deckOption",
       message: "Select a deck:",
-      choices: listName,
+      choices: [...listName, "Back"],
     })
     .then((answer) => {
+      if (answer["deckOption"] === "Back") {
+        return;
+      }
       deckMenu(answer["deckOption"]);
     })
     .catch((error) => {
@@ -42,7 +45,7 @@ async function showDecks() {
 
 async function deckMenu() {}
 
-async function deleteDesk(deskId) {
+async function deleteDesk() {
   console.clear();
   let decks = await deck.find();
   let listName = [];
@@ -53,9 +56,12 @@ async function deleteDesk(deskId) {
       type: "list",
       name: "deleteDeckOption",
       message: "Select a deck to delete:",
-      choices: listName,
+      choices: [...listName, "Back"],
     })
     .then(async (answer) => {
+      if (answer["deleteDeckOption"] === "Back") {
+        return;
+      }
       await deck.deleteOne({ name: answer["deleteDeckOption"] });
     })
     .catch((error) => {
