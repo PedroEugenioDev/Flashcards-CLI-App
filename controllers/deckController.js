@@ -1,4 +1,5 @@
 const deck = require("../models/deck");
+const { createCard } = require("../controllers/cardController");
 const inquirer = require("inquirer");
 
 async function createDesk() {
@@ -61,9 +62,9 @@ async function deckMenu(deckName) {
       console.clear();
       switch (answer.deckMenuOption) {
         case 1:
-          console.log("Create Card");
-          //await createCard();
-          deckMenu();
+          SelectedDeck = await deck.findOne({ name: deckName });
+          await createCard(SelectedDeck);
+          //await deckMenu();
           break;
         case 2:
           console.log("review Cards");
