@@ -54,6 +54,9 @@ async function deleteCard(deckOwner) {
       let index = deck.cards.indexOf(answer["delete-card"]);
       deck.cards.splice(index, 1);
       await deck.save();
+    })
+    .catch((error) => {
+      console.log("Error at deleteCard function");
     });
 }
 
