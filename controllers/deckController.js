@@ -1,5 +1,5 @@
 const deck = require("../models/deck");
-const { createCard } = require("../controllers/cardController");
+const { createCard, deleteCard } = require("../controllers/cardController");
 const inquirer = require("inquirer");
 
 async function createDesk() {
@@ -64,20 +64,18 @@ async function deckMenu(deckName) {
       switch (answer.deckMenuOption) {
         case 1:
           await createCard(SelectedDeck);
-          //await deckMenu();
+          await deckMenu();
           break;
         case 2:
-          console.log("review Cards");
           //await reviewCards();
           deckMenu();
           break;
         case 3:
-          console.log("Delete Card");
-          //await deleteCards();
-          deckMenu();
+          await deleteCard(SelectedDeck);
+          await deckMenu();
           break;
         case 4:
-          deckMenu();
+        // back to mainMenu
         default:
           console.clear();
           console.log("Invalid option... (Press Enter)");
