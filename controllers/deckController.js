@@ -60,9 +60,9 @@ async function deckMenu(deckName) {
     })
     .then(async (answer) => {
       console.clear();
+      SelectedDeck = await deck.findOne({ name: deckName });
       switch (answer.deckMenuOption) {
         case 1:
-          SelectedDeck = await deck.findOne({ name: deckName });
           await createCard(SelectedDeck);
           //await deckMenu();
           break;

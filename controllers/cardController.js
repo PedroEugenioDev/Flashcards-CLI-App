@@ -21,9 +21,12 @@ async function createCard(deckOwner) {
       let newCard = Card({
         front: inputs["new-card-front"],
         back: inputs["new-card-back"],
-        DeckId: deckOwner.Id,
+        DeckId: deckOwner.id,
       });
       await newCard.save();
+      let deck = await Deck.findById(deckOwner.id);
+      deck.cards.push(newCard);
+      await deck.save();
     })
     .catch((error) => {
       console.log("Error at createCard function");
