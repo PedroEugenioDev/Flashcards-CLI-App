@@ -1,0 +1,1 @@
+export const functions = ['min','max','calc','min-max','var']

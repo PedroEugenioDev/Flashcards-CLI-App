@@ -1,6 +1,8 @@
 const Card = require("../models/card");
 const Deck = require("../models/deck");
 const inquirer = require("inquirer");
+const log = require("cli-block");
+const readline = require("readline");
 
 async function createCard(deckOwner) {
   await inquirer
@@ -32,6 +34,45 @@ async function createCard(deckOwner) {
     });
 }
 
+async function reviewCards(deckOwner) {
+  const cards = await Card.find({ DeckId: deckOwner.id });
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  for (let index = 0; index < cards.length; index++) {
+    console.clear();
+    log.blockHeader("Front");
+    log.blockLine();
+    log.blockLine(cards[index].front);
+    log.blockMid("Back");
+    log.blockLine();
+    log.blockFooter();
+    let answer = await new Promise(
+      async (resolve) =>
+        await rl.question("Press S key to show back or B to Back", resolve)
+    );
+    if (answer === "s") {
+      console.clear();
+      log.blockHeader("Front");
+      log.blockLine();
+      log.blockLine(cards[index].front);
+      log.blockMid("Back");
+      log.blockLine(cards[index].back);
+      log.blockFooter();
+    }
+    let next = await new Promise(
+      async (resolve) =>
+        await rl.question(
+          "Press N key to review next card or B to Back",
+          resolve
+        )
+    );
+  }
+  rl.close();
+}
+
 async function deleteCard(deckOwner) {
   const cards = await Card.find({ DeckId: deckOwner.id });
   const optionsList = cards.map((element, index) => {
@@ -60,4 +101,4 @@ async function deleteCard(deckOwner) {
     });
 }
 
-module.exports = { createCard, deleteCard };
+module.exports = { createCard, deleteCard, reviewCards };
