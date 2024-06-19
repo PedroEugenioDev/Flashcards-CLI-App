@@ -7,7 +7,7 @@ const {
 const inquirer = require("inquirer");
 
 async function main() {
-  console.clear();
+  //console.clear();
   await inquirer
     .prompt({
       type: "list",
