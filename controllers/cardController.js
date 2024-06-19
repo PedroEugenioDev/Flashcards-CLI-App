@@ -49,10 +49,12 @@ async function reviewCards(deckOwner) {
     log.blockMid("Back");
     log.blockLine();
     log.blockFooter();
-    let answer = await new Promise(
-      async (resolve) =>
-        await rl.question("Press S key to show back or B to Back", resolve)
-    );
+    let answer = "";
+    do {
+      answer = await new Promise((resolve) =>
+        rl.question("Press S key to show back or B to Back", resolve)
+      );
+    } while ((answer !== "s") & (answer !== "e"));
     if (answer === "s") {
       console.clear();
       log.blockHeader("Front");
@@ -61,14 +63,21 @@ async function reviewCards(deckOwner) {
       log.blockMid("Back");
       log.blockLine(cards[index].back);
       log.blockFooter();
+
+      let next = "";
+      do {
+        next = await new Promise((resolve) =>
+          rl.question("Press N key to review next card or B to Back", resolve)
+        );
+      } while ((next !== "n") & (next !== "b"));
+      if (next === "b") {
+        break;
+      }
     }
-    let next = await new Promise(
-      async (resolve) =>
-        await rl.question(
-          "Press N key to review next card or B to Back",
-          resolve
-        )
-    );
+    if (answer === "b") {
+      Console.log("break");
+      break;
+    }
   }
   rl.close();
 }
